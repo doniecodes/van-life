@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: hsl(33, 100%, 96%);
+}
+.container{
+    width: 90%;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+.header{
+    width: 100%;
+    padding: 1.2rem 0;
+}
+.navbar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar ul{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.logo{
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* hero section */
+.hero{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ) , url("../images/home-hero.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    padding: 5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.heading-1{
+    color: #fff;
+    font-weight: 800;
+    font-size: 2.3rem;
+}
+.text{
+    color: #fff;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+}
+.hero-btn{
+    background-color: hsl(25, 100%, 61%);
+    padding: 0.8rem 3rem;
+    border-radius: 0.5rem;
+    color: #fff;
+}
+
+/* About Page */
+.about-hero{
+    height: auto;
+}
+.about-content{
+    margin: 2.6rem 0;
+}
+.lead{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.about-content .text{
+    color: #000;
+}
+
+.box{
+    margin-top: 2.5rem;
+    background-color: hsl(33, 100%, 78%);
+    padding: 1.5rem 2rem;
+    border-radius: 0.3rem;
+}
+.box-text{
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 1.3rem;
+}
+.box-btn{
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+
+}
+
+
+footer{
+    background-color: hsl(0, 0%, 15%);
+    color: hsl(0, 0%, 80%);
+    height: 80px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
