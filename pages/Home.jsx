@@ -12,9 +12,9 @@ export default function Home() {
                 <p className="text">
                 Add adventure to your life by joining the #vanlife movement. Rent the perfect van to make your perfect road trip.
                 </p>
-                <button className="hero-btn">
+                <Link to="/vans" className="hero-btn">
                     Find your van
-                </button>
+                </Link>
             </section>
         </main>
         </>

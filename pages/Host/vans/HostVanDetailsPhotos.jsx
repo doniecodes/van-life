@@ -6,7 +6,7 @@ const HostVanDetailsPhotos = () => {
 
   return (
     <>
-      <img src={outletContext.imageUrl} alt={outletContext.name} width={150}/>
+      <img src={outletContext.imageUrl} alt={outletContext.name} width={100}/>
     </>
   )
 }
