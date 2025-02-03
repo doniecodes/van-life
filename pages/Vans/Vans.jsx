@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useSearchParams } from 'react-router-dom'
+import React, { Suspense } from 'react';
+import { Link, useSearchParams, useLoaderData, Await } from 'react-router-dom'
 import {getVans} from '/data/api'
-import { useLoaderData } from 'react-router-dom';
+
 
 /* Loader Function */
-export function loader (){
-  return getVans();
+export async function loader (){
+  let vansPromise = new Promise((res) => {
+    setTimeout(() => res(getVans()), 0)
+});
+
+  return { vansPromise };
 }
 
 const Vans = () => {
-  const vans = useLoaderData();
+  let { vansPromise } = useLoaderData();
 
     /* Search Params */
     const [searchParams, setSearchParams] = useSearchParams();
@@ -27,32 +30,28 @@ const Vans = () => {
       })
     }
 
-    const displayedVans = typeFilter ?
-    vans.filter(van=> van.type.toLowerCase() === typeFilter)
-    : vans;
+    const renderVansAwaitElemnts = (vans)=> {
+      const displayedVans = typeFilter ?
+      vans.filter(van=> van.type.toLowerCase() === typeFilter)
+      : vans;
 
-    const vanElements = displayedVans.map(van => (
-        <Link to={`${van.id}`} key={van.id}
-        state={{search: searchParams.toString()}}>
-        <div className="van-tile">
-            <img src={van.imageUrl} />
-            <div className="van-info">
-                <h3>{van.name}</h3>
-                <p>${van.price}<span>/day</span></p>
-            </div>
-            <i className={`van-type ${van.type} selected`}>{van.type}</i>
-        </div>
-        </Link>
-    ))
+      const vanElements = displayedVans.map(van => (
+          <Link to={`${van.id}`} key={van.id}
+          state={{search: searchParams.toString()}}>
+          <div className="van-tile">
+              <img src={van.imageUrl} />
+              <div className="van-info">
+                  <h3>{van.name}</h3>
+                  <p>${van.price}<span>/day</span></p>
+              </div>
+              <i className={`van-type ${van.type} selected`}>{van.type}</i>
+          </div>
+          </Link>
+      ))
 
-  return (
-    <>
-    <section className='vans-section'>
-      <h2 className="heading-2">
-        Explore our van options
-      </h2>
-
-      <div className='vans-filters'>
+      return (
+        <>
+        <div className='vans-filters'>
         <button onClick={()=> handleFilterChange('type','simple')}
          className={`van-filter simple ${typeFilter === 'simple' && 'selected'}`}>Simple</button>
 
@@ -65,13 +64,30 @@ const Vans = () => {
         {typeFilter && <button onClick={()=> handleFilterChange('type', null)}
          className="van-filter-clear">clear filters</button>}
       </div>
-      
+
       <div className="van-list">
         {vanElements}
       </div>
+        </>
+      )
+    }
+
+  return (
+    <>
+    <section className='vans-section'>
+      <h2 className="heading-2">
+        Explore our van options
+      </h2>
+
+    <Suspense fallback={<h2>Loading...</h2>}>
+      <Await resolve={vansPromise}>
+        {renderVansAwaitElemnts}
+      </Await>
+    </Suspense>
     </section>
     </>
   )
+
 }
 
 export default Vans

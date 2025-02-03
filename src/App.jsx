@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import './index.css'
 import { createBrowserRouter, createRoutesFromElements,RouterProvider, Route} from 'react-router-dom'
-import "/server"
+import "../data/server"
 import Home from '../pages/Home';
 import Vans, { loader as vansLoader } from '../pages/Vans/Vans';
 import About from '../pages/About';
 import MainOutlet from '../components/MainOutlet';
 import VanDetail, { loader as vanDetailLoader } from '../pages/Vans/VanDetail';
 import HostLayout from '../components/HostLayout';
-import Dashboard from '../pages/Host/dashboard/Dashboard';
+import Dashboard, { loader as dashLoader } from '../pages/Host/dashboard/Dashboard';
 import Income from '../pages/Host/income/Income';
 import Reviews from '../pages/Host/reviews/Reviews';
 import HostVans, {loader as hostVansLoader} from '../pages/Host/vans/HostVans';
@@ -33,19 +33,23 @@ const router = createBrowserRouter(
         errorElement={<ErrorLoader />}/>
         <Route path="vans/:id"
         element={<VanDetail />}
-        loader={vanDetailLoader} />
+        loader={vanDetailLoader}
+        errorElement={<ErrorLoader/>} />
 
-        <Route path="host" element={<HostLayout />}>
+        <Route path="host" element={<HostLayout />}
+        loader={async ({request})=> await requireAuth(request)}>
           <Route index element={<Dashboard />}
-          loader={async ({request})=> await requireAuth(request)} />
+          loader={dashLoader} />
           <Route path="income" element={<Income />}
           loader={async ({request})=> await requireAuth(request)} />
           <Route path="vans"
           element={<HostVans />}
-          loader={hostVansLoader}/>
+          loader={hostVansLoader}
+          errorElement={<ErrorLoader/>} />
           <Route path="vans/:id"
-          element={<HostVanDetailLayout />}
-          loader={hostVansDetailLoader} > 
+          element={<HostVanDetailLayout/>}
+          loader={hostVansDetailLoader}
+          errorElement={<ErrorLoader/>} > 
             <Route index
             element={<HostVanDetailsDetails />}
             loader={async ({request})=> await requireAuth(request)} />
